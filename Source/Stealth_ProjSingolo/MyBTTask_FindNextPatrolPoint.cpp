@@ -4,7 +4,7 @@
 #include "MyBTTask_FindNextPatrolPoint.h"
 #include "MyEnemyAIController.h"
 #include "NavigationSystem.h"
-#include "MyEnemy.h"
+#include "MyEnemyReal.h"
 #include "MyAIBehaviorComponent.h"
 #include "MyPatrolPoint.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
@@ -21,7 +21,7 @@ EBTNodeResult::Type UMyBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeComp
 	if (!IsValid(AIController)) return EBTNodeResult::Failed;
 
 	const APawn* AIPawn = AIController->GetPawn();
-	const AMyEnemy* AICharacter = Cast<AMyEnemy>(AIPawn);
+	const AMyEnemyReal* AICharacter = Cast<AMyEnemyReal>(AIPawn);
 	if (!IsValid(AICharacter)) return EBTNodeResult::Failed;
 
 	UBlackboardComponent* BlackBoardComponent = OwnerComp.GetBlackboardComponent();

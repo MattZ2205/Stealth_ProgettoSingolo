@@ -49,9 +49,6 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
-		//EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		//EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Triggered, this, &AMyCharacter::PlayerCrouch);
 		EnhancedInputComponent->BindAction(Move, ETriggerEvent::Triggered, this, &AMyCharacter::MovePlayer);
 		EnhancedInputComponent->BindAction(MoveCamera, ETriggerEvent::Triggered, this, &AMyCharacter::MovePlayerCamera);

@@ -1,38 +1,47 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MyEnemy.h"
+
+#include "MyEnemyReal.h"
 #include "MyAIBehaviorComponent.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
-AMyEnemy::AMyEnemy()
+// Sets default values
+AMyEnemyReal::AMyEnemyReal()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
 	AIBehaviorComponent = CreateDefaultSubobject<UMyAIBehaviorComponent>("AI Behaviour");
 }
 
-void AMyEnemy::BeginPlay()
+// Called when the game starts or when spawned
+void AMyEnemyReal::BeginPlay()
 {
 	Super::BeginPlay();
 
 	BlackBoardComponent = UAIBlueprintHelperLibrary::GetBlackboard(this);
-
-	//UE_LOG(LogTemp, Warning, TEXT(BlackBoardComponent.GetName()));
 }
 
-void AMyEnemy::Tick(float DeltaTime)
+// Called every frame
+void AMyEnemyReal::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AMyEnemy::Attack(APawn* Player)
+// Called to bind functionality to input
+void AMyEnemyReal::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+}
+
+void AMyEnemyReal::Attack(APawn* Player)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Enemy Attack!"));
 }
 
-void AMyEnemy::ReceiveAttack()
+void AMyEnemyReal::ReceiveAttack()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Enemy Receive Attack!"));
 }

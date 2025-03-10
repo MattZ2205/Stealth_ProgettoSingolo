@@ -5,7 +5,7 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "MyCharacter.h"
-#include "MyEnemy.h"
+#include "MyEnemyReal.h"
 
 UMyBTTask_AttackPlayer::UMyBTTask_AttackPlayer(FObjectInitializer const& ObjectInitializer)
 {
@@ -24,7 +24,7 @@ EBTNodeResult::Type UMyBTTask_AttackPlayer::ExecuteTask(UBehaviorTreeComponent& 
 
 	AAIController* AIController = OwnerComp.GetAIOwner();
 	ACharacter* AICharacter = AIController->GetCharacter();
-	AMyEnemy* Enemy = Cast<AMyEnemy>(AICharacter);
+	AMyEnemyReal* Enemy = Cast<AMyEnemyReal>(AICharacter);
 
 	Enemy->Attack(Player);
 
