@@ -21,6 +21,9 @@ protected:
 	UFUNCTION()
 	void Handle_OnPerceptionUpdated(AActor* TargetActor, FAIStimulus Stimulus);
 
+	UFUNCTION()
+	void Handle_GameOver(bool PlayerWon);
+
 	UPROPERTY(EditAnywhere)
 	bool IsBeingSpotted;
 

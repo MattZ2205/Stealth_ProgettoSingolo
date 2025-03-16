@@ -2,10 +2,10 @@
 
 
 #include "MyBTTask_AttackPlayer.h"
-#include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "MyCharacter.h"
 #include "MyEnemyReal.h"
+#include "MyEnemyAIController.h"
 
 UMyBTTask_AttackPlayer::UMyBTTask_AttackPlayer(FObjectInitializer const& ObjectInitializer)
 {
@@ -18,11 +18,17 @@ EBTNodeResult::Type UMyBTTask_AttackPlayer::ExecuteTask(UBehaviorTreeComponent& 
 
 	UObject* PlayerObj = BlackBoardComponent->GetValueAsObject(GetSelectedBlackboardKey());
 	AMyCharacter* Player = Cast<AMyCharacter>(PlayerObj);
-	if (!IsValid(Player)) return EBTNodeResult::Failed;
+	UE_LOG(LogTemp, Warning, TEXT("LOG PORCODDIO"));
+	if (!IsValid(Player))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Player is not valid"));
+		return EBTNodeResult::Failed;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Player: %s"), *Player->GetName());
 
-	Player->ReceiveAttack();
+	//Player->ReceiveAttack();
 
-	AAIController* AIController = OwnerComp.GetAIOwner();
+	AMyEnemyAIController* AIController = Cast<AMyEnemyAIController>(OwnerComp.GetAIOwner());
 	ACharacter* AICharacter = AIController->GetCharacter();
 	AMyEnemyReal* Enemy = Cast<AMyEnemyReal>(AICharacter);
 

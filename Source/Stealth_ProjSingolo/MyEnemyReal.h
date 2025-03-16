@@ -15,7 +15,6 @@ class STEALTH_PROJSINGOLO_API AMyEnemyReal : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	AMyEnemyReal();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (BlueprintProtected))
@@ -28,6 +27,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere)
+	bool IsAttacking;
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -36,10 +37,13 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void Attack(APawn* Entity);
+	void Attack(AMyCharacter* Entity);
 
 	UFUNCTION()
 	void ReceiveAttack();
+
+	UFUNCTION(BlueprintCallable)
+	bool CanBeAttacked();
 
 	const UMyAIBehaviorComponent* GetAIBehaviourComponent() const { return AIBehaviorComponent; };
 	const UBlackboardComponent* GetBlackBoardComponent() const { return BlackBoardComponent; };

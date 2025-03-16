@@ -9,6 +9,9 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
+#include "MyFinish.h"
+#include "MyCharacter.h"
+#include "Stealth_ProjSingoloGameMode.h"
 
 AMyEnemyAIController::AMyEnemyAIController()
 {
@@ -21,7 +24,17 @@ void AMyEnemyAIController::BeginPlay()
 
 	AIPerceptionComponent->OnTargetPerceptionUpdated.AddUniqueDynamic(this, &AMyEnemyAIController::Handle_OnPerceptionUpdated);
 
+	AGameModeBase* GameModeBase = UGameplayStatics::GetGameMode(GetWorld());
+	AStealth_ProjSingoloGameMode* GameMode = Cast<AStealth_ProjSingoloGameMode>(GameModeBase);
+	GameMode->OnGameOver.AddUniqueDynamic(this, &AMyEnemyAIController::Handle_GameOver);
+
 	RunBehaviorTree(BTEnemy);
+}
+
+void AMyEnemyAIController::Handle_GameOver(bool PlayerWon)
+{
+	AIPerceptionComponent->SetSenseEnabled(UAISense_Sight::StaticClass(), false);
+	GetBlackboardComponent()->ClearValue("Player");
 }
 
 void AMyEnemyAIController::Handle_OnPerceptionUpdated(AActor* TargetActor, FAIStimulus Stimulus)

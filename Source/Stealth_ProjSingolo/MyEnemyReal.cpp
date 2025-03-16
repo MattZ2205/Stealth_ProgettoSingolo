@@ -5,6 +5,7 @@
 #include "MyAIBehaviorComponent.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "MyCharacter.h"
 
 // Sets default values
 AMyEnemyReal::AMyEnemyReal()
@@ -36,12 +37,30 @@ void AMyEnemyReal::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
-void AMyEnemyReal::Attack(APawn* Player)
+void AMyEnemyReal::Attack(AMyCharacter* Player)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Enemy Attack!"));
+	IsAttacking = true;
+	Player->ReceiveAttack();
 }
 
 void AMyEnemyReal::ReceiveAttack()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Enemy Receive Attack!"));
+	BlackBoardComponent->SetValueAsBool("IsBeingAttacked", true);
+	SetActorEnableCollision(false);
+}
+
+bool AMyEnemyReal::CanBeAttacked()
+{
+	FName PlayerBlackboardKey = "Player";
+	FName StimulusLocationBlackboardKey = "StimulusLocation";
+
+	//If the enemy doesnt even suspect that the player is around, we can kill him 100%
+	UObject* Player = BlackBoardComponent->GetValueAsObject(PlayerBlackboardKey);
+	if (!IsValid(Player)) return true;
+
+	//If the enemy knows the player is around we check if its investigating or its a direct contact.
+	bool IsInvestigating = BlackBoardComponent->IsVectorValueSet(StimulusLocationBlackboardKey);
+	if (IsInvestigating) return true;
+
+	return false;
 }
